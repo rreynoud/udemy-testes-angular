@@ -1,22 +1,28 @@
+import {TodoService} from './todo.service';
+import {Component, OnInit} from '@angular/core';
+import {User} from './User';
 
-import { TodoService } from './todo.service';
-import { OnInit } from '@angular/core';
-
+@Component({
+  selector: 'app-todos',
+  template: `asdasd`
+})
 export class TodosComponent implements OnInit {
-  todos: any[] = [];
+  todos: User[] = [];
   message;
 
-  constructor(private service: TodoService) {}
+  constructor(private service: TodoService) {
+  }
 
   ngOnInit() {
     this.service.getTodos().subscribe(t => this.todos = t);
   }
 
   add() {
-    const newTodo = { title: '... ' };
-    this.service.add(newTodo).subscribe(
-      t => this.todos.push(t),
-      err => this.message = err);
+    const newTodo: User = {title: '... '};
+    this.service.add(newTodo).subscribe(t =>
+      this.todos.push(t), err => this.message = err
+    );
+    console.log(this.service.add(newTodo));
   }
 
   delete(id) {
