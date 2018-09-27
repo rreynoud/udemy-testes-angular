@@ -1,7 +1,6 @@
 import {TodosComponent} from './todos.component';
 import {TodoService} from './todo.service';
 import {from, Observable, throwError} from 'rxjs';
-import {empty} from 'rxjs/internal/Observer';
 import {User} from './User';
 import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 import {HttpClientModule} from '@angular/common/http';
@@ -66,12 +65,20 @@ describe('TodosComponent', () => {
   it('should set the messa property if server returns an error when a adding a new todo', inject([TodoService], (service: TodoService) => {
     let todo: User = {id: 1};
     const msg = 'deu ruim';
-     spyOn(service, 'add').and.returnValue(throwError(msg));
+    spyOn(service, 'add').and.returnValue(throwError(msg));
 
     component.add();
 
     expect(component.message).toBe(msg);
   }));
+
+
+  xit('should load todos from the server', () => {
+    let service = TestBed.get(TodoService);
+    spyOn(service, 'getTodos').and.returnValue(from([1, 2, 3]));
+    fixture.detectChanges();
+    expect(component.todos.length).toBe(3);
+  });
 
 });
 
